@@ -22,9 +22,3 @@ jobs:
 
     - name: Sync to S3
       run: aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET }} --follow-symlinks --delete --exclude ".git/*" --exclude ".github/*"
-
-    - name: Invalidate CloudFront Cache
-      run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
-            --invalidation-batch "Paths={Quantity=1,Items=[/*]},CallerReference=$(date +%s)"
