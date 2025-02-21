@@ -26,6 +26,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- =======================================================
   * Template Name: iPortfolio
@@ -721,5 +722,42 @@
   <script src="assets/js/main.js"></script>
 
 </body>
+
+
+<script>
+
+
+function isNewVisitor() {
+  // Check if the visitor has a cookie
+  if (!document.cookie.includes("visited=true")) {
+      // Set a cookie to track the visitor for 30 days
+      document.cookie = "visited=true; path=/; max-age=" + 30 * 24 * 60 * 60;
+
+      // Send AJAX request for a new visitor
+      sendVisitorData();
+  }
+}
+
+function sendVisitorData() {
+  $.ajax({
+      url: 'https://ke93hmkm9g.execute-api.ap-southeast-1.amazonaws.com/development/',
+      // url: 'https://www.geojs.io/docs/v1/endpoints/country/',
+      type: "GET",
+      success: function (response) {
+          console.log("Visitor logged successfully!", response.body);
+      },
+      error: function (xhr, status, error) {
+          console.error("Error logging visitor:", error);
+      }
+  });
+}
+
+// Run the visitor check when the page loads
+$(document).ready(isNewVisitor);
+
+</script>
+
+
+
 
 </html>
